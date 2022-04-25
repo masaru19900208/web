@@ -1,23 +1,7 @@
-// let chartData_Arr
-// fetch('https://vccdg94894.execute-api.ap-northeast-1.amazonaws.com/from_DB_to_webChart_STAGE/?getNum=10', {
-//     method: "GET",
-//     mode: 'cors'
-// })
-//     .then((response) => {
-//         if (response.ok) {
-//             return response.json().then(resJson => {
-//                 chartData_Arr = JSON.stringify(resJson);
-//                 console.log(chartData_Arr);
-//             });
-//         }
-//         throw new Error('Network response was not ok.');
-//     })
-//     .catch(error => {
-//         console.error(error);
-//     })
+
 async function sampleResolve() {
     try {
-        const response = await fetch('https://vccdg94894.execute-api.ap-northeast-1.amazonaws.com/from_DB_to_webChart_STAGE/?getNum=30', {
+        const response = await fetch(process.env.API_POINT, {
             method: "GET",
             mode: 'cors'
         });
@@ -33,4 +17,5 @@ async function sampleResolve() {
     }
 };
 
-
+require('dotenv').config();
+sampleResolve()

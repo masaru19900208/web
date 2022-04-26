@@ -18,4 +18,5 @@ async function sampleResolve() {
 };
 
 require('dotenv').config();
+console.log(process.env.API_POINT)
 sampleResolve()

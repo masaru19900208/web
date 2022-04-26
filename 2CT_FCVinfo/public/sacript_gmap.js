@@ -2,6 +2,8 @@ var map;
 var directionsService;
 var directionsRenderer;
 
+require('dotenv').config();
+process.env.MAP_POINT
 
 function initMap() {
     // 地図を生成して表示

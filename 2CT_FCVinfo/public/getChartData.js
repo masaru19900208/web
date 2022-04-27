@@ -1,3 +1,5 @@
+// import 'dotenv/config'
+// import express from 'express'
 
 async function sampleResolve() {
     try {
@@ -17,6 +19,7 @@ async function sampleResolve() {
     }
 };
 
-require('dotenv').config();
-console.log(process.env.API_POINT)
+// require('dotenv').config();
+// require('dotenv').config();
+// console.log(process.env.API_POINT)
 sampleResolve()

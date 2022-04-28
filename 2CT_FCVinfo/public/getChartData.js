@@ -3,7 +3,7 @@
 
 async function sampleResolve() {
     try {
-        const response = await fetch(process.env.API_POINT, {
+        const response = await fetch('https://vccdg94894.execute-api', {
             method: "GET",
             mode: 'cors'
         });

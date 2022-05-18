@@ -14,7 +14,6 @@
     <data-card-comp dataName="車内温" unit="℃" idTagName="tempInCarTag" idMainName="tempInCar" v-if="iscartemp"></data-card-comp>
   </div>
 
-
   <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="settingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-sm-md">
       <div class="modal-content w-75 w-100-md">

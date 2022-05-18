@@ -3,7 +3,7 @@
 
 async function sampleResolve() {
     try {
-        const response = await fetch('https://vccdg94894.execute-api', {
+        const response = await fetch(`${process.env.VUE_AWS_CHARTPOINT}`, {
             method: "GET",
             mode: 'cors'
         });
@@ -19,7 +19,4 @@ async function sampleResolve() {
     }
 };
 
-// require('dotenv').config();
-// require('dotenv').config();
-// console.log(process.env.API_POINT)
 sampleResolve()

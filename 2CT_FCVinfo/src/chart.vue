@@ -4,9 +4,10 @@
       <div id="viecont" @click="stopevent">
           <input id="getnum" type="range" min="1" max="30"> <label for="getnum" id="getnumResult">スライダーで回帰直線追加</label>
           <p id="resultNum"></p>
-          <canvas id="myChart" height="120vh"></canvas>
+          <div style="height:60vh; width:100%;">
+            <canvas id="myChart"></canvas>
+          </div>
       </div>
-      <button @click="isshow = !isshow">teest</button>
     </div>
   </transition>
   <div style="background-color: #303535; text-align: center;">
@@ -31,6 +32,7 @@ export default {
     stopevent: function(){
       event.stopPropagation()
     },
+
     showchart: function() {
       let scriptElchar = document.createElement('script')
       scriptElchar.setAttribute('src', `https://cdn.jsdelivr.net/npm/chart.js`)
@@ -44,6 +46,7 @@ export default {
             });
             if (response.ok) {
                 const resJson = await response.json();
+                // console.log(JSON.stringify(resJson))
                 // return JSON.stringify(resJson);
                 return resJson
             } else {
@@ -57,14 +60,14 @@ export default {
       const scatterDataArr = [];
       sampleResolve().then((getChartData) => {
         const dateData = getChartData.datetime.map((e) => e.slice(0, 19).replace("T", " "));
-        getChartData.foo1.forEach((value, index) => {
+        getChartData.cruis_rang.forEach((value, index) => {
             scatterDataArr.push({ 'x': index, 'y': value, 'date': dateData[index] })
         });
         const labels = dateData;
         const data = {
             labels: labels,
             datasets: [{
-                label: 'IC出口圧力',
+                label: '今は平均燃費',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: scatterDataArr,
@@ -94,6 +97,7 @@ export default {
                         },
                     },
                 },
+                maintainAspectRatio: false,
             },
         };
         const myChart = new window.Chart(
@@ -105,7 +109,7 @@ export default {
             document.getElementById("getnumResult").innerText = sliderNum_gr + "個データで回帰直線";
             let addChartDataArr = scatterDataArr.slice();
             addChartDataArr.splice(0, 30 - sliderNum_gr);
-            console.log(e);
+            console.log(e.isTrusted);
 
             var sx = 0;
             var sy = 0;
@@ -167,6 +171,28 @@ export default {
       });
     }
   },
+  // mounted(){
+  //   window.onload = () => {
+  //       async function sampleResolve() {
+  //       try {
+  //           const response = await fetch(`${process.env.VUE_APP_AWSCHARTPOINT}?getNum=30`, {
+  //               method: "GET",
+  //               mode: 'cors'
+  //           });
+  //           if (response.ok) {
+  //               const resJson = await response.json();
+  //               // return JSON.stringify(resJson);
+  //               return resJson
+  //           } else {
+  //               throw new Error('Network response was not ok.');
+  //           }
+  //       } catch (error) {
+  //           console.error(error);
+  //       }
+  //     }
+  //   }
+
+  // }
 };
 </script>
 

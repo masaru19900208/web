@@ -27,10 +27,10 @@ export default {
     window.onload = () => {
       (() => {
         // ログインしていない場合リダイレクト
-        const params = new URLSearchParams(location.search.slice(1));
-        if (!params.has('code')) {
-          return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de/dist"
-        }
+        // const params = new URLSearchParams(location.search.slice(1));
+        // if (!params.has('code')) {
+        //   return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de/dist/index.html"
+        // }
 
         // 地図を生成して表示
         new window.google.maps.Map(document.getElementById("gmap"), {

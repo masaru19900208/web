@@ -40,7 +40,7 @@ export default {
       this.isshow = !this.isshow
       async function sampleResolve() {
         try {
-            const response = await fetch(`${process.env.VUE_APP_AWSCHARTPOINT}?getNum=30`, {
+            const response = await fetch(`${process.env.VUE_APP_AWSCHARTPOINT}?getNum=100`, {
                 method: "GET",
                 mode: 'cors'
             });
@@ -60,7 +60,7 @@ export default {
       const scatterDataArr = [];
       sampleResolve().then((getChartData) => {
         const dateData = getChartData.datetime.map((e) => e.slice(0, 19).replace("T", " "));
-        getChartData.cruis_rang.forEach((value, index) => {
+        getChartData.sp1.forEach((value, index) => {
             scatterDataArr.push({ 'x': index, 'y': value, 'date': dateData[index] })
         });
         const labels = dateData;

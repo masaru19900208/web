@@ -12,6 +12,7 @@
     <data-card-comp dataName="バッテリSoC" unit="%" idTagName="battSOCTag" idMainName="battSOC" v-if="isbattSOC"></data-card-comp>
     <data-card-comp dataName="FC水温" unit="℃" idTagName="thwfoTag" idMainName="thwfo" v-if="isthwfo"></data-card-comp>
     <data-card-comp dataName="車内温" unit="℃" idTagName="tempInCarTag" idMainName="tempInCar" v-if="iscartemp"></data-card-comp>
+    <button @click="getaws">getaws</button>
   </div>
 
   <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="settingModalLabel" aria-hidden="true">
@@ -112,6 +113,16 @@ export default {
       iscartemp: false,
       issuppPower: true,
       issuppTime: true,
+      result: 0,
+      currentlat: 0,
+      currentlon: 0,
+      datetime: 0,
+      fuelh2: 0,
+      dcpsplst: 0,
+      pwsplt_f: 0,
+      pwsplw_f: 0,
+      sp1: 0,
+      outtmp: 0,
     };
   },
   methods:{
@@ -138,7 +149,38 @@ export default {
         this.issuppPower = !this.issuppPower;
       else if(value.inputID == "issuppTime")
         this.issuppTime = !this.issuppTime;
-    }
+    },
+    getaws() {
+      console.log("button dami getaws")
+      
+    },
+  },
+  mounted(){
+    setInterval(() => {
+      let self = this;
+      var url = 'https://evzjz8g5sa.execute-api.ap-northeast-1.amazonaws.com/dynamodb_API_s_truck/dynamodbctrl_s_truck';
+      fetch(url)
+          .then(function (data) {
+              return data.json();
+          })
+          .then(function (json) {
+            self.result = json;
+            self.currentlat = self.result.Items[0].ido;
+            self.currentlon = self.result.Items[0].keido;
+            self.datetime = self.result.Items[0].datetime;
+            self.fuelh2 = self.result.Items[0].fuelh2;
+            self.dcpsplst = self.result.Items[0].dcpsplst;
+            self.pwsplt_f = self.result.Items[0].pwsplt_f;
+            self.pwsplw_f = self.result.Items[0].pwsplw_f;
+            self.sp1 = self.result.Items[0].sp1;
+            self.outtmp = self.result.Items[0].outtmp;
+            // console.log("func getaws")
+          })
+      .catch(function (error) {
+          console.log(error);
+          window.alert("エラーが発生しました。ウェブページを再読み込みしてください getaws")
+      });
+    }, 5000);
   }
 };
 </script>

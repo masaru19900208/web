@@ -6,7 +6,7 @@
         {{ dataName }}
       </div>
       <div class="card-body">
-        <h4 class="card-title" :id="idMainName">{{ unit }}</h4>
+        <h4 class="card-title" :id="idMainName"><slot></slot></h4>
       </div>
     </div>
   </div>

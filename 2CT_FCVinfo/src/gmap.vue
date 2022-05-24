@@ -1,11 +1,15 @@
 <template>
-  <div id="gmap" class="d-flex align-items-center" style="height:50vh;"></div>
-  <!-- <p> {{testaws}} </p> -->
+<div style="position: relative;">
+  <div id="spin" class="d-flex justify-content-center align-items-center" v-if="test" @click="test = !test">
+      <div class="spinner-border text-primary" role="status" style="width: 5rem; height: 5rem;">
+        <span class="visually-hidden"></span>
+      </div>
+  </div>
+  <div id="gmap" class="d-flex align-items-center" style="height:50vh; z-index: 1; position: relative;"></div>
+</div>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-// import getawstest from "./assets/getawstest.js"
 import getaws from './assets/getaws'
 
 export default {
@@ -15,8 +19,9 @@ export default {
   // },
   data(){
     return{
-      currentlat: 35.2288635,
+      currentlat: 0,
       currentlon: 138.9058909,
+      test : true,
       // cullentposi: 0,
     }
   },
@@ -39,6 +44,9 @@ export default {
         if (!params.has('code')) {
           return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de"
         }
+        getaws.getawsdata()
+        this.currentlat = getaws.data.currentlat
+        this.currentlon = getaws.data.currentlon
 
         // 地図を生成して表示
         map = new window.google.maps.Map(document.getElementById("gmap"), {
@@ -100,5 +108,21 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#spin{
+  /* display: none; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: #212529;
+  z-index: 2;
+}
+#spinchild{
+  /* color: #fff; */
+  z-index: 2;
+
 }
 </style>

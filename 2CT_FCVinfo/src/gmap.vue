@@ -1,6 +1,6 @@
 <template>
 <div style="position: relative;">
-  <div id="spin" class="d-flex justify-content-center align-items-center" v-if="test" @click="test = !test">
+  <div id="spin" class="d-flex justify-content-center align-items-center" v-if="showload" @click="showload = !showload">
       <div class="spinner-border text-primary" role="status" style="width: 5rem; height: 5rem;">
         <span class="visually-hidden"></span>
       </div>
@@ -20,8 +20,8 @@ export default {
   data(){
     return{
       currentlat: 0,
-      currentlon: 138.9058909,
-      test : true,
+      currentlon: 0,
+      showload : true,
       // cullentposi: 0,
     }
   },
@@ -35,6 +35,7 @@ export default {
     let cullentposi;
     let Carposi;
     let scriptEl = document.createElement('script')
+    // let self = this;
     scriptEl.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_GMAPKEY}&language=ja`)
     document.head.appendChild(scriptEl)
     window.onload = () => {
@@ -44,14 +45,31 @@ export default {
         if (!params.has('code')) {
           return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de"
         }
-        getaws.getawsdata()
-        this.currentlat = getaws.data.currentlat
-        this.currentlon = getaws.data.currentlon
+
+        // function testAsync(){
+        //   return new Promise((resolve)=>{
+        //     getaws.getawsdata()
+        //     self.currentlat = getaws.data.currentlat
+        //     self.currentlon = getaws.data.currentlon
+        //     console.log("resolve")
+        //     console.log(self.currentlat)
+        //     resolve()
+        //   });
+        // }
+        async function callerFun(){
+            console.log("Caller");
+            const res = await getaws.asynctest()
+            const json = await res.json()
+            console.log(json)
+            console.log("After waiting");
+        }
+        callerFun();
+
 
         // 地図を生成して表示
         map = new window.google.maps.Map(document.getElementById("gmap"), {
           zoom: 15,
-          center: new window.google.maps.LatLng(35.2288635, 138.9058909),
+          center: new window.google.maps.LatLng(0, 0),
           mapTypeId: "roadmap"
         });
         new window.google.maps.DirectionsService();
@@ -68,6 +86,11 @@ export default {
             animation: window.google.maps.Animation.DROP
         };
         Carposi = new window.google.maps.Marker(Carinitmarker);
+        // gettest()
+        // getaws.getawsdata()
+
+
+
       })()
     }
     setInterval(() => {

@@ -90,7 +90,7 @@
 <script>
 import dataCardComp from "./components/dataCardComp.vue";
 import settingWin from "./components/settingWin.vue"
-import getaws from './assets/getaws'
+import getaws from '../public/js/getaws'
 
 // import SettingFunc from './settingFunc.vue';
 

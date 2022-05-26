@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import getaws from './assets/getaws'
+import getaws from '../public/js/getaws'
 
 export default {
   name: "v_gmap",

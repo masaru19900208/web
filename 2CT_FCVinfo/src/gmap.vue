@@ -1,12 +1,5 @@
 <template>
-<div style="position: relative;">
-  <div id="spin" class="d-flex justify-content-center align-items-center" v-if="showload" @click="showload = !showload">
-      <div class="spinner-border text-primary" role="status" style="width: 5rem; height: 5rem;">
-        <span class="visually-hidden"></span>
-      </div>
-  </div>
   <div id="gmap" class="d-flex align-items-center" style="height:50vh; z-index: 1; position: relative;"></div>
-</div>
 </template>
 
 <script>
@@ -21,7 +14,6 @@ export default {
     return{
       currentlat: 0,
       currentlon: 0,
-      showload : true,
       // cullentposi: 0,
     }
   },
@@ -46,61 +38,38 @@ export default {
           return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de"
         }
 
-        // function testAsync(){
-        //   return new Promise((resolve)=>{
-        //     getaws.getawsdata()
-        //     self.currentlat = getaws.data.currentlat
-        //     self.currentlon = getaws.data.currentlon
-        //     console.log("resolve")
-        //     console.log(self.currentlat)
-        //     resolve()
-        //   });
-        // }
-        async function callerFun(){
-            console.log("Caller");
-            const res = await getaws.asynctest()
-            const json = await res.json()
-            console.log(json)
-            console.log("After waiting");
+        async function firstMakeMap(){
+          const res = await getaws.asyncFunc()
+          const json = await res.json()
+
+          // 地図を生成して表示
+            map = new window.google.maps.Map(document.getElementById("gmap"), {
+            zoom: 15,
+            center: new window.google.maps.LatLng(json.Items[0].ido, json.Items[0].keido),
+            mapTypeId: "roadmap"
+          });
+          new window.google.maps.DirectionsService();
+          new window.google.maps.DirectionsRenderer();
+
+          cullentposi = new window.google.maps.LatLng(json.Items[0].ido, json.Items[0].keido);
+          var Carinitmarker = {
+              position: cullentposi,
+              map: map,
+              icon: {
+                  url: require('./assets/img/car_point.svg'),
+                  scaledSize: new window.google.maps.Size(40, 30) //サイズ
+              },
+              animation: window.google.maps.Animation.DROP
+          };
+          Carposi = new window.google.maps.Marker(Carinitmarker);
         }
-        callerFun();
-
-
-        // 地図を生成して表示
-        map = new window.google.maps.Map(document.getElementById("gmap"), {
-          zoom: 15,
-          center: new window.google.maps.LatLng(0, 0),
-          mapTypeId: "roadmap"
-        });
-        new window.google.maps.DirectionsService();
-        new window.google.maps.DirectionsRenderer();
-
-        cullentposi = new window.google.maps.LatLng(this.currentlat, this.currentlon);
-        var Carinitmarker = {
-            position: cullentposi,
-            map: map,
-            icon: {
-                url: require('./assets/img/car_point.svg'),
-                scaledSize: new window.google.maps.Size(40, 30) //サイズ
-            },
-            animation: window.google.maps.Animation.DROP
-        };
-        Carposi = new window.google.maps.Marker(Carinitmarker);
-        // gettest()
-        // getaws.getawsdata()
-
-
-
+       firstMakeMap();
       })()
     }
     setInterval(() => {
       getaws.getawsdata()
-      this.currentlat = getaws.data.currentlat
-      this.currentlon = getaws.data.currentlon
-      // console.log(this.currentlat)
 
-
-      cullentposi = new window.google.maps.LatLng(this.currentlat, this.currentlon);
+      cullentposi = new window.google.maps.LatLng(getaws.data.currentlat, getaws.data.currentlon);
       var Carinitmarker = {
         position: cullentposi,
         map: map,
@@ -111,10 +80,9 @@ export default {
       };
 
       Carposi.setMap(null);
-      // let elem_map_cont = document.getElementById("map_center");
-      // if (elem_map_cont.checked) {
-      map.setCenter(cullentposi); //センター合わせ
-      // }
+      if(document.getElementById("isTracking").checked){
+        map.setCenter(cullentposi); //センター合わせ
+      }
       Carposi = new window.google.maps.Marker(Carinitmarker);
     }, 5000);
   }

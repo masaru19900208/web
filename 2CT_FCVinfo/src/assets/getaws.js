@@ -1,7 +1,7 @@
 export default {
     data: {
-        currentlat: 35.2288635,
-        currentlon: 138.9058909,
+        currentlat: 0,
+        currentlon: 0,
         datetime: 0,
         fuelh2: 0,
         dcpsplst: 0,
@@ -30,21 +30,9 @@ export default {
             // console.log(json);
         }
         fetchget()
-        // fetch(url)
-        //     .then(function (data) {
-        //         console.log("return json")
-        //         return data.json();
-        //     })
-        //     .then(function (json) {
-        // self.data.TTL = json.Items[0].TTL
-        //         // return json
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //         window.alert("エラーが発生しました。ウェブページを再読み込みしてください getaws")
-        //     });
+
     },
-    asynctest() {
+    asyncFunc() {
         var url = process.env.VUE_APP_AWSTRUCKPOINT;
         return fetch(url)
     }

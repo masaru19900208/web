@@ -11,7 +11,7 @@
     <data-card-comp dataName="FC水温" idTagName="thwfoTag" idMainName="thwfo" v-if="isthwfo"></data-card-comp>
     <data-card-comp dataName="外気温" idTagName="outTempTag" idMainName="outTemp" v-if="isoutTemp"></data-card-comp>
     <data-card-comp dataName="車内温" idTagName="tempInCarTag" idMainName="tempInCar" v-if="iscartemp"> {{outtmp}} </data-card-comp>
-    <button @click="getaws">getaws</button>
+    <!-- <button @click="getaws">getaws</button> -->
   </div>
 
   <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="settingModalLabel" aria-hidden="true">
@@ -63,7 +63,7 @@
               地図設定
               <ul class="list-group">
 
-                <setting-win cardTitle="車両追跡"></setting-win>
+                <setting-win cardTitle="車両追跡" inputID="isTracking" ischeck=true></setting-win>
 
               </ul>
             </li>
@@ -169,7 +169,36 @@ export default {
       this.sp1 = getaws.data.sp1
       this.outtmp = getaws.data.outtmp
       this.TTL = getaws.data.TTL
+
     }, 5000);
+    let self = this
+    async function firstMakeDataCard(){
+          const res = await getaws.asyncFunc()
+          const json = await res.json()
+            //データを初期設定
+            self.currentlat = json.Items[0].ido
+            self.currentlon = json.Items[0].keido
+            self.datetime = json.Items[0].datetime;
+            self.fuelh2 = json.Items[0].fuelh2;
+            self.dcpsplst = json.Items[0].dcpsplst;
+            self.pwsplt_f = json.Items[0].pwsplt_f;
+            self.pwsplw_f = json.Items[0].pwsplw_f;
+            self.sp1 = json.Items[0].sp1;
+            self.outtmp = json.Items[0].outtmp;
+            self.TTL = json.Items[0].TTL;
+            
+            getaws.data.currentlat = json.Items[0].ido
+            getaws.data.currentlon = json.Items[0].keido
+            getaws.data.datetime = json.Items[0].datetime;
+            getaws.data.fuelh2 = json.Items[0].fuelh2;
+            getaws.data.dcpsplst = json.Items[0].dcpsplst;
+            getaws.data.pwsplt_f = json.Items[0].pwsplt_f;
+            getaws.data.pwsplw_f = json.Items[0].pwsplw_f;
+            getaws.data.sp1 = json.Items[0].sp1;
+            getaws.data.outtmp = json.Items[0].outtmp;
+            getaws.data.TTL = json.Items[0].TTL
+    }
+    firstMakeDataCard()
   }
 };
 </script>

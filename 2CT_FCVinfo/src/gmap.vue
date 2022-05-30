@@ -1,9 +1,11 @@
 <template>
   <div id="gmap" class="d-flex align-items-center" style="height:50vh; z-index: 1; position: relative;"></div>
+  <p> Hello {{username}} san</p>
 </template>
 
 <script>
 import getaws from '../public/js/getaws'
+import getCognito from '../public/js/getCognito'
 
 export default {
   name: "v_gmap",
@@ -14,7 +16,7 @@ export default {
     return{
       currentlat: 0,
       currentlon: 0,
-      // cullentposi: 0,
+      username:localStorage.username
     }
   },
   methods:{
@@ -27,16 +29,15 @@ export default {
     let cullentposi;
     let Carposi;
     let scriptEl = document.createElement('script')
-    // let self = this;
+    let scriptEl2 = document.createElement('script')
     scriptEl.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_GMAPKEY}&language=ja`)
     document.head.appendChild(scriptEl)
+    scriptEl2.setAttribute('src', `https://unpkg.com/axios/dist/axios.min.js`)
+    document.head.appendChild(scriptEl2)
     window.onload = () => {
       (() => {
         // ログインしていない場合リダイレクト
-        const params = new URLSearchParams(location.search.slice(1));
-        if (!params.has('code')) {
-          return location.href = "https://masarutest001.auth.ap-northeast-1.amazoncognito.com/login?client_id=6s0ek26ks3a8ggrn6l9mtqardo&response_type=code&scope=openid&redirect_uri=https://evecamoni2ct.de"
-        }
+        getCognito.checkSession()
 
         async function firstMakeMap(){
           const res = await getaws.asyncFunc()

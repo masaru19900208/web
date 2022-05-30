@@ -60,14 +60,14 @@ export default {
       const scatterDataArr = [];
       sampleResolve().then((getChartData) => {
         const dateData = getChartData.datetime.map((e) => e.slice(0, 19).replace("T", " "));
-        getChartData.sp1.forEach((value, index) => {
+        getChartData.fuelh2.forEach((value, index) => {
             scatterDataArr.push({ 'x': index, 'y': value, 'date': dateData[index] })
         });
         const labels = dateData;
         const data = {
             labels: labels,
             datasets: [{
-                label: '今は平均燃費',
+                label: '水素残量[%]',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: scatterDataArr,
